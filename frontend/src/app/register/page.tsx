@@ -6,7 +6,7 @@ export default function RegisterPage() {
     // <div className="container mx-auto px-4 py-8">
     <div className="container" style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
       <div className="flex justify-center items-center ">
-          <Image src="/logo.png" width={200} alt="saylani logo" />
+          <Image src="/logo.png" width={200} height={200} alt="saylani logo" />
       </div>
       <RegisterForm />
     </div>

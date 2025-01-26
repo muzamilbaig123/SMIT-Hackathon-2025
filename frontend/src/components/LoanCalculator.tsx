@@ -91,9 +91,9 @@ const LoanCalculator = () => {
           placeholder="Enter loan period"
         />
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-start">
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" style={{backgroundColor: "#0066b3"}}
           type="button"
           onClick={handleCalculate}
         >

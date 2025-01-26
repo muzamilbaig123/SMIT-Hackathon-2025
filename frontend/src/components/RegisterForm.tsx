@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 const RegisterForm = () => {
   const [cnic, setCnic] = useState("")
@@ -65,6 +66,9 @@ const RegisterForm = () => {
         >
           Register
         </button>
+      </div>
+      <div className="text-center py-4">
+        you have already account ? <Link className="font-bold text-blue-500" href={"/login"}>Login</Link>
       </div>
     </form>
   )
