@@ -1,21 +1,34 @@
 import mongoose from "mongoose";
 
-const crudScheme = new mongoose.Schema({
-    sn: {
-        type: Number
-    },
-    name: {
-        type: String,
-        require: true
-    },
-    email: {
-        type: String,
-        require: true
-    },
-    password: {
-        type: String,
-        require: true
-    }
+const UserSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  cnic: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 })
 
-export default new mongoose.model("crud", crudScheme)
+module.exports = mongoose.model("User", UserSchema)
+
