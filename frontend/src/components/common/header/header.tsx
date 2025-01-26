@@ -55,8 +55,8 @@ export default function Header() {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <Link href={""} className="btn mr-2">Login</Link>
-                    <Link href={""} className="btn">SignUp</Link>
+                    <Link href={"/login"} className="btn mr-2">Login</Link>
+                    <Link href={"/register"} className="btn">SignUp</Link>
                 </div>
             </div>
         </>
