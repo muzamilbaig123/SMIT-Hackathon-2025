@@ -1,13 +1,9 @@
 "use client"
 import Link from 'next/link'
 import React, { ChangeEvent, FormEvent, useState } from 'react'
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
 
 const ForgetPassword = () => {
 
-  const router = useRouter()
 
     const [state,setSate] = useState({
      
@@ -21,21 +17,7 @@ const ForgetPassword = () => {
 
     const onSUbmitHandler = async(e:FormEvent<HTMLFormElement>)=>{
                 e.preventDefault();
-                try {
-
-                  if(!state.email ){
-                    toast.error("please fill all fields");
-                    return
-                  }
-
-                    const response = await axios.post('/api/forget-password',state);
-                    const data = await response.data;
-                    toast.success(data.msg);
-
-                    router.push("/");
-                } catch (error:any) {
-                    toast.error(error.response.data.error);
-                }
+              
     }
 
   return (
