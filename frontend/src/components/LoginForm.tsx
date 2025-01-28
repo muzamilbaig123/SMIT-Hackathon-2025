@@ -11,14 +11,14 @@ const LoginForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Implement login logic
-    console.log("Login submitted:", { email, password })
-    // Redirect to dashboard after successful login
+    setEmail("");
+    setPassword("");
     router.push("/dashboard")
+
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto border py-10 px-10 rounded shadow">
       <div className="mb-4">
         <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
           Email
@@ -48,14 +48,19 @@ const LoginForm = () => {
       <div className="flex items-center justify-center">
         <button
           type="submit"
-          className="bg-blue-500  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-blue-500  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
         >
           Log In
         </button>
 
       </div>
-      <div className="text-center py-4">
-        do you have an account ? <Link className="font-bold text-blue-500" href={"/register"}>SignUp</Link>
+      <div className="text-center py-4 flex justify-between items-center">
+        <p>
+        <Link className="font-bold text-blue-500" href={"/register"}>SignUp</Link>
+        </p>
+        <p>
+        <Link className="underline text-blue-500" href={"/forget-password"}>Forget Password</Link>
+        </p>
       </div>
     </form>
   )
