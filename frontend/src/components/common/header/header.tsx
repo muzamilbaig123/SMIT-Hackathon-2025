@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-// import img from ""
 
 
 export default function Header() {
@@ -42,7 +41,7 @@ export default function Header() {
                         </ul>
                     </div>
                     <a className="btn btn-ghost text-xl">
-                        <Image src="/logo.png" width={200} alt="saylani logo" />
+                        <Image src="/logo.png" width={200} height={200} alt="saylani logo" />
                     </a>
                 </div>
                 <div className="navbar-center hidden lg:flex">

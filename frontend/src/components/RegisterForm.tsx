@@ -1,10 +1,14 @@
 "use client"
 
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const RegisterForm = () => {
+
+  const [userData, setUserData] = useState("")
+
   const [cnic, setCnic] = useState("")
   const [email, setEmail] = useState("")
   const [name, setName] = useState("")
@@ -19,9 +23,33 @@ const RegisterForm = () => {
     setName("");
     setPassword("")
 
-    router.push("/login")
+    
+    try{
+      const user = await axios.post("http://localhost:5000/register", {
+        cnic, 
+        email,
+        name,
+        password,
+      });
+      // setUserData(user)
+      console.log(user)
+      console.log("User Succdully Signup")
+    }catch(e){
+      console.log(`register api fetch time error ${e}`)
+    }
+    
+
+
+    // router.push("/login")
 
   }
+
+
+  useEffect(() => {
+    console.log(`signup data ${JSON?.stringify(userData)}`)
+
+  }, [userData])
+
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto border py-10 px-10 rounded shadow">
