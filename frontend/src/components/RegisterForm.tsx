@@ -5,50 +5,52 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
+type UserDataType = {
+  cnic: string;
+  email: string;
+  name: string;
+  password: string;
+}
+
 const RegisterForm = () => {
-
-  const [userData, setUserData] = useState("")
-
-  const [cnic, setCnic] = useState("")
-  const [email, setEmail] = useState("")
-  const [name, setName] = useState("")
-  const [password, setPassword] = useState("")
+  const [userData, setUserData] = useState<UserDataType | null>(null);
+  const [cnic, setCnic] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
 
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setCnic("");
-    setEmail("");
-    setName("");
-    setPassword("")
-
+    e.preventDefault();
     
-    try{
-      const user = await axios.post("http://localhost:5000/register", {
-        cnic, 
+    try {
+      const response = await axios.post<UserDataType>("http://localhost:5000/register", {
+        cnic,
         email,
         name,
         password,
       });
-      // setUserData(user)
-      console.log(user)
-      console.log("User Succdully Signup")
-    }catch(e){
-      console.log(`register api fetch time error ${e}`)
+      
+      setUserData(response.data);
+      console.log("User successfully registered");
+      
+      // Clear form fields after successful submission
+      setCnic("");
+      setEmail("");
+      setName("");
+      setPassword("");
+      
+      router.push("/login");
+    } catch (error) {
+      console.error("Registration error:", error);
+      // Handle error (show message to user, etc.)
     }
-    
-
-
-    // router.push("/login")
-
-  }
-
+  };
 
   useEffect(() => {
-    console.log(`signup data ${JSON?.stringify(userData)}`)
-
-  }, [userData])
+    console.log("Signup data:", userData);
+  }, [userData]);
 
 
   return (
