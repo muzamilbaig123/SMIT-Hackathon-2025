@@ -1,0 +1,4 @@
+1. homepage design
+2. login, signup, forgetpassword, otp, updatepassword
+
+1-npm i bcrypt   =    passwordbecrypt karney ke liye , npm i joi    =    validation laganey key liye
