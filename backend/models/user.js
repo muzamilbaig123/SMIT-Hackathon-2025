@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    // required: true,
   },
   email: {
     type: String,
@@ -18,17 +18,8 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-  },
-  role: {
-    type: String,
-    enum: ["user", "admin"],
-    default: "user",
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-})
+  }
+}, {timestamps: true})
 
-module.exports = mongoose.model("User", UserSchema)
+export default mongoose.model("User", UserSchema)
 
