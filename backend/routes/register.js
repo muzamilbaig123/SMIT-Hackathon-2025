@@ -9,10 +9,10 @@ const router = express.Router();
 
 function validateUser (data) {
     const userSchemaValidate = joi.object({
-        name: joi.string().min(2).required(),
+        name: joi.string().min(4).required(),
         email: joi.string().email().required(),
-        cnic: joi.string().min(14).max(14).required(),
-        password: joi.string().min(4).max(8).required(),
+        cnic: joi.string().max(14).required(),
+        password: joi.string().min(6).max(22).required(),
     });
 
     return userSchemaValidate.validate(data)
@@ -57,11 +57,12 @@ router.post("/", async (req, res) => {
 
         const saveUser = await newUser.save();
         res.status(200).json({message: "User Registerted Succfully", status: true})
-        // res.send(saveUser);
+        res.send(saveUser);
            
     }   
     catch(e){
         console.log(`create time error ${e}`)
+        res.status(e.statusCode || 500).json({message: e.message || "Internal server error"})
     }
 });
 
