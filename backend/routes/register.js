@@ -55,9 +55,9 @@ router.post("/", async (req, res) => {
             password: handlePassword
         });
 
-        const saveUser = await newUser.save();
-        res.status(200).json({message: "User Registerted Succfully", status: true})
-        res.send(saveUser);
+        await newUser.save();
+        return res.status(200).json({message: "User Registerted Succfully", status: true})
+        // res.send(saveUser);
            
     }   
     catch(e){
