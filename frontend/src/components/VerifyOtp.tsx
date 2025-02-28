@@ -1,13 +1,17 @@
 "use client"
 
 import Link from "next/link";
-import React, { type FormEvent, useState, useRef, type ChangeEvent, type KeyboardEvent } from "react";
+import React, { type FormEvent, useState, useRef, type ChangeEvent, type KeyboardEvent, useEffect } from "react";
 import { useRouter } from "next/navigation"
 import Countdown from 'react-countdown';
+import axios from "axios";
+import apis from "@/utils/api";
 
 
 export default function VerifyOTP() {
-  const [otp, setOtp] = useState<string[]>(["", "", "", "", ""])
+  const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
+  const [err, setErr] = useState<string | null>(null);
+
   // Initialize refs array with explicit typing
   const router = useRouter();
 
@@ -21,7 +25,7 @@ export default function VerifyOTP() {
     setOtp(newOtp)
 
     // Move to next input
-    if (value !== "" && index < 4) {
+    if (value !== "" && index < 5) {
       inputRefs.current[index + 1]?.focus()
     }
   }
@@ -35,16 +39,67 @@ export default function VerifyOTP() {
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const otpString = otp.join("")
-    if (otpString.length === 5) {
+    if (otpString.length === 6) {
       console.log("OTP submitted:", otpString)
       // Here you would typically send the OTP to your server for verification
-      router.push("/update-password")
+
+      try{
+        const response = await axios.post(apis().verifyOtp, {otp: otpString});
+        console.log(response)
+        
+        const recRes = response.data;
+
+        if(recRes.status === true){
+          router.push("/update-password")
+          console.log("succefully")
+        }
+        else{
+          setErr(recRes.message);
+        }
+        
+
+      }
+      catch(e){
+        console.log("verifyotp time err", e)
+        setErr("Something Went Wrong!") 
+       
+      }
+
+
+      // router.push("/update-password")
     } else {
       alert("Please enter a valid 5-digit OTP")
     }
 
 
   }
+
+
+  useEffect(() => {
+
+    const getTime = async () => {
+      try {
+
+        const res = await axios.post(apis().verifyTime, {token: localStorage.getItem('authToken')})
+
+        if(!res.data.ok){
+          throw new Error(res.data.message)
+        }
+
+        if(res?.data?.status){
+          console.log(res)
+        }
+
+
+      } catch (e) {
+          console.log("otptimechecking", e)
+      }
+    }
+
+    getTime()
+
+  })
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -54,6 +109,10 @@ export default function VerifyOTP() {
           <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-2">
             Enter the 5-digit OTP sent to your email
           </label>
+          <div>
+          { err && <p className="text-red-500 text-center mt-2">{err}</p> }
+
+          </div>
           <div className="flex justify-between gap-2">
             {otp.map((digit, index) => (
               <input

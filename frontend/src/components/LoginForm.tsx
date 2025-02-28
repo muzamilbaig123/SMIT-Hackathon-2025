@@ -3,23 +3,76 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import axios from "axios"
+import apis from "@/utils/api"
+
+type LoginDataType = {
+  token: string,
+  user?: object,
+  error?: string,
+}
 
 const LoginForm = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setEmail("");
-    setPassword("");
-    router.push("/dashboard")
+    setError(null)
+    // router.push("/dashboard")
+
+    
+    
+    try{
+      const response = await axios.post<LoginDataType>(apis().loginUser, {
+        email,
+        password,
+      })
+
+      setEmail("");
+      setPassword("");
+      const reciveData = response.data;
+
+      console.log("######",reciveData)
+
+      if(reciveData.token){
+        localStorage.setItem("authToken", reciveData.token)
+        router.push("/dashboard")
+      }
+      else{
+        throw new Error("Authentication Token Not Recived")
+      }
+
+
+    }catch(e){
+        if(axios.isAxiosError(e)){
+          setError(e.response?.data?.e || "Login failed. please check your credentional")
+        }
+        else{
+          setError("Unexpected Error occured. please try again later")
+        }
+
+      console.log("###", e)
+
+    }
+
+
+
 
   }
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto border py-10 px-10 rounded shadow">
       <div className="mb-4">
+        {
+          error && (
+            <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
+                {error}
+            </div>
+          )
+        }
         <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
           Email
         </label>
